@@ -21,6 +21,60 @@ bun run preview
 
 使用 TypeScript 5.9，与当前 `vue-tsc` 配合检查 Nuxt 页面与组件。升级 TypeScript 前需先确认 Vue 工具兼容性。
 
+## Docker 与 Caddy 部署
+
+需要 Docker Engine 和 Docker Compose，以下命令均在 `lyp-website` 目录执行。官网独立部署：Node.js 24 容器运行 Nuxt SSR，Caddy 容器提供反向代理、压缩和 HTTPS。镜像构建使用 Bun 锁文件安装依赖，运行镜像仅包含 `.output`，以非 root 用户运行。
+
+### 本地 HTTP 验证
+
+首次部署复制配置文件，已有 `.env` 时直接修改：
+
+```bash
+cp .env.example .env
+docker compose config --quiet
+docker compose up -d --build
+```
+
+默认 `SITE_ADDRESS=:80`，启动后访问 `http://localhost`。Caddy 占用宿主机 80、443 TCP 和 443 UDP 端口；部署前确认没有其他服务占用这些端口。官网 3000 端口仅在 Compose 网络内访问，不发布到宿主机。Caddy 等待官网 HTTP 健康检查通过后启动。
+
+### 正式域名与 HTTPS
+
+将正式域名的 DNS A 记录指向部署服务器；如配置 AAAA 记录，也应指向可访问的服务器 IPv6 地址。放行服务器和云安全组的 80、443 TCP 端口；启用 HTTP/3 时同时放行 443 UDP。
+
+在 `.env` 中填写实际域名和证书联系邮箱，例如：
+
+```dotenv
+SITE_ADDRESS=www.example.com
+ACME_EMAIL=ops@example.com
+```
+
+正式域名不要添加 `http://`。执行 `docker compose up -d --build` 后，Caddy 自动申请、续期 HTTPS 证书，并将 HTTP 请求重定向到 HTTPS。证书和 Caddy 状态保存在 `caddy_data`、`caddy_config` 命名卷中。
+
+### 校验与日常维护
+
+```bash
+# 校验 Compose 和 Caddy 配置（不申请证书）
+docker compose config --quiet
+docker compose run --rm --no-deps caddy caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+
+# 查看服务状态和日志
+docker compose ps
+docker compose logs -f --tail=100 website caddy
+
+# 更新源码或 .env 后，重新构建并启动
+docker compose up -d --build
+
+# 修改 Caddyfile 后，校验成功再重新加载
+docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
+
+# 停止并移除容器，保留证书与配置卷
+docker compose down
+```
+
+不要在日常停止时添加 `down -v`，它会删除证书与配置卷。修改 `.env` 后使用 `up -d` 重建环境变量有变化的容器，仅执行 `restart` 或 Caddy reload 不会更新容器环境变量。
+
+部署后直接访问并刷新 `/`、`/services`、`/partners`、`/photographers`、`/about`，确认页面、图片和样式正常，查看页面源代码确认包含 SSR 正文。正式域名启用后，检查 HTTPS 证书和 HTTP 自动跳转。
+
 ## 页面
 
 | 路由             | 内容                                      |

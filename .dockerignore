@@ -1,0 +1,16 @@
+node_modules/
+.nuxt/
+.output/
+.nitro/
+.data/
+.cache/
+dist/
+.git
+.env
+.env.*
+logs/
+*.log
+*.tsbuildinfo
+.DS_Store
+.idea/
+.fleet/
