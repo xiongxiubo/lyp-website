@@ -2,7 +2,7 @@
 import { site } from "~/data/site";
 usePageMeta(
   "关于我们",
-  "旅艺拍由河南旅艺拍数字传媒科技有限公司运营，连接旅行者、摄影师与目的地，让旅行留下值得收藏的影像故事。",
+  "旅艺拍由河南旅艺拍数字科技有限公司运营，连接旅行者、摄影师与目的地，让旅行留下值得收藏的影像故事。",
 );
 const hasContact = Boolean(
   site.businessPhone || site.businessEmail || site.address,
@@ -11,13 +11,8 @@ const hasContact = Boolean(
 
 <template>
   <div>
-    <PageHero
-      eyebrow="ABOUT LÜYIPAI / 关于我们"
-      title="每一程，都值得被记住。"
-      description="我们记录旅行，也珍视每一个出发的人。"
-      image="/images/mountains.webp"
-      alt="日光下延伸至远方的山峰"
-    />
+    <PageHero eyebrow="ABOUT LÜYIPAI / 关于我们" title="每一程，都值得被记住。" description="我们记录旅行，也珍视每一个出发的人。"
+      image="/images/mountains.webp" alt="日光下延伸至远方的山峰" />
     <section class="section container about-story">
       <div>
         <span class="eyebrow">OUR STORY</span>
@@ -36,23 +31,13 @@ const hasContact = Boolean(
           从发现喜欢的场景，到选择拍摄服务，再到收藏成片，我们让旅行与记录，在同一段旅程里发生。
         </p>
         <div class="company-signature">
-          <img
-            src="/brand-icon.png"
-            width="40"
-            height="40"
-            alt=""
-            loading="lazy"
-          /><span>{{ site.company }}</span>
+          <img src="/brand-icon.png" width="40" height="40" alt="" loading="lazy" /><span>{{ site.company }}</span>
         </div>
       </div>
     </section>
     <section class="section section-soft">
       <div class="container">
-        <SectionHeading
-          eyebrow="WHAT CONNECTS US"
-          title="因为同一份热爱，我们相遇。"
-          centered
-        />
+        <SectionHeading eyebrow="WHAT CONNECTS US" title="因为同一份热爱，我们相遇。" centered />
         <div class="value-grid">
           <article>
             <h3>为旅行者，留住此刻</h3>
@@ -73,41 +58,38 @@ const hasContact = Boolean(
     </section>
     <section id="contact" class="section container contact-section">
       <div>
-        <SectionHeading
-          eyebrow="LET’S CONNECT"
-          title="一起，把故事带向远方。"
-          description="欢迎了解旅艺拍。无论你关注旅行体验、摄影师服务，还是景区合作，都可以从这里找到方向。"
-        />
+        <SectionHeading eyebrow="LET’S CONNECT" title="一起，把故事带向远方。"
+          description="欢迎了解旅艺拍。无论你关注旅行体验、摄影师服务，还是景区合作，都可以从这里找到方向。" />
         <div v-if="hasContact" class="contact-details">
-          <a v-if="site.businessPhone" :href="`tel:${site.businessPhone}`"
-            ><span>商务电话</span>{{ site.businessPhone }}</a
-          ><a v-if="site.businessEmail" :href="`mailto:${site.businessEmail}`"
-            ><span>商务邮箱</span>{{ site.businessEmail }}</a
-          >
+          <a v-if="site.businessPhone" :href="`tel:${site.businessPhone}`"><span>商务电话</span>{{ site.businessPhone
+            }}</a><a v-if="site.businessEmail" :href="`mailto:${site.businessEmail}`"><span>商务邮箱</span>{{
+              site.businessEmail }}</a>
           <p v-if="site.address"><span>公司地址</span>{{ site.address }}</p>
         </div>
         <MiniProgramEntry />
       </div>
       <div class="contact-directions">
-        <NuxtLink to="/services"
-          ><div>
+        <NuxtLink to="/services">
+          <div>
             <span>我是旅行者</span>
             <p>了解服务与小程序体验</p>
           </div>
-          <span aria-hidden="true">↗</span></NuxtLink
-        ><NuxtLink to="/photographers"
-          ><div>
+          <span aria-hidden="true">↗</span>
+        </NuxtLink>
+        <NuxtLink to="/photographers">
+          <div>
             <span>我是摄影师</span>
             <p>了解摄影师端与服务流程</p>
           </div>
-          <span aria-hidden="true">↗</span></NuxtLink
-        ><NuxtLink to="/partners"
-          ><div>
+          <span aria-hidden="true">↗</span>
+        </NuxtLink>
+        <NuxtLink to="/partners">
+          <div>
             <span>我是景区合作伙伴</span>
             <p>了解景区服务与协作方式</p>
           </div>
-          <span aria-hidden="true">↗</span></NuxtLink
-        >
+          <span aria-hidden="true">↗</span>
+        </NuxtLink>
       </div>
     </section>
   </div>
