@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: "zh-CN" },
-      title: "旅艺拍 · 让旅行，留下你的故事",
+      title: "旅艺拍 · 为游客拍出影视级旅游短视频",
       meta: [{ name: "theme-color", content: "#18212F" }],
       link: [{ rel: "icon", type: "image/png", href: "/brand-icon.png" }],
     },

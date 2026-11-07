@@ -2,10 +2,10 @@
 import { Menu, TopRight } from "@element-plus/icons-vue";
 import { navigation } from "~/data/site";
 
-const route = useRoute();
+const currentRoute = useRoute();
 const menuOpen = ref(false);
 watch(
-  () => route.fullPath,
+  () => currentRoute.fullPath,
   () => {
     menuOpen.value = false;
   },
@@ -16,26 +16,30 @@ watch(
   <header class="site-header">
     <div class="container header-inner">
       <NuxtLink class="brand" to="/" aria-label="旅艺拍首页">
-        <img src="/brand-icon.png" width="42" height="42" alt="" />
-        <span>旅艺拍<small>旅行中的艺术</small></span>
+        <img
+          class="brand-lockup"
+          src="/Lvyipai.png"
+          width="148"
+          height="40"
+          alt="旅艺拍"
+        />
       </NuxtLink>
       <nav class="desktop-nav" aria-label="主导航">
         <NuxtLink
           v-for="item in navigation"
           :key="item.to"
           :to="item.to"
-          :class="{ 'is-current': route.path === item.to }"
-          :aria-current="route.path === item.to ? 'page' : undefined"
+          :class="{ 'is-current': currentRoute.path === item.to }"
+          :aria-current="currentRoute.path === item.to ? 'page' : undefined"
           >{{ item.label }}</NuxtLink
         >
       </nav>
       <ElButton
-        class="header-contact"
+        class="header-contact header-admin-button"
         tag="a"
-        href="/about#contact"
-        type="primary"
+        href="https://lvyipai.aiyaopai.com/"
         round
-        >与我们同行 <ElIcon><TopRight /></ElIcon
+        >管理后台 <ElIcon><TopRight /></ElIcon
       ></ElButton>
       <ElButton
         class="mobile-menu-button"
@@ -57,13 +61,10 @@ watch(
           v-for="item in navigation"
           :key="item.to"
           :to="item.to"
-          :aria-current="route.path === item.to ? 'page' : undefined"
           @click="menuOpen = false"
           >{{ item.label }}<span aria-hidden="true">↗</span></NuxtLink
         >
-        <NuxtLink to="/about#contact" @click="menuOpen = false"
-          >与我们同行<span aria-hidden="true">↗</span></NuxtLink
-        >
+        <a href="https://lvyipai.aiyaopai.com/">管理后台<span aria-hidden="true">↗</span></a>
       </nav>
     </ElDrawer>
   </header>

@@ -106,7 +106,7 @@ docker compose down
 
 `public/logo.png` 和 `public/lyp-logo.png` 为原始品牌素材，保持不变。`brand-icon.png` 与 `favicon.ico` 从原始图标生成。
 
-摄影素材以 WebP 保存在 `public/images`；来源、许可与用途见 `ASSET_SOURCES.md`。页面中的照片均为旅行场景示意，不代表旅艺拍客户作品或合作景区。替换图片时同步更新替代文本、裁切位置和来源记录。
+摄影素材以 WebP 保存在 `public/images`；来源、许可与用途见 `ASSET_SOURCES.md`。页面中的照片均为站点演示素材，不代表旅艺拍客户作品或合作景区。替换图片时同步更新替代文本、裁切位置和来源记录。
 
 ## 人工验收
 

@@ -32,7 +32,14 @@ const steps = [
       description="把对光影的热爱，带到旅行现场。和旅艺拍一起，记录风景，也记录身在其中的人。"
       image="/images/portrait.webp"
       alt="站在山野中的旅行者与辽阔风景"
-    />
+    >
+      <ElButton
+        class="app-download-button"
+        tag="a"
+        :href="site.photographerDownloadUrl || '#app-download'"
+        >App下载</ElButton
+      >
+    </PageHero>
     <section class="section container">
       <SectionHeading
         eyebrow="FOCUS ON WHAT YOU LOVE"
@@ -66,7 +73,7 @@ const steps = [
         /><JourneySteps :steps="steps" />
       </div>
     </section>
-    <section class="section container product-intro">
+    <section id="app-download" class="section container product-intro">
       <div class="photographer-tool">
         <div class="tool-top">
           <img

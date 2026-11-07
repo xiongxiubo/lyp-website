@@ -18,7 +18,7 @@ export const site: SiteConfig = {
   businessPhone: "",
   businessEmail: "",
   address: "",
-  icpNumber: "",
+  icpNumber: "豫ICP备2026034896号",
 };
 
 export const navigation = [

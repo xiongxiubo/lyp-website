@@ -2,7 +2,7 @@
 import { ArrowRight, TopRight } from "@element-plus/icons-vue";
 import { services } from "~/data/site";
 usePageMeta(
-  "让旅行，留下你的故事",
+  "为游客拍出影视级旅游短视频",
   "旅艺拍连接旅行者、摄影师与景区，提供照片旅拍、短视频与 AI 视频服务，让每一段旅行拥有值得收藏的影像。",
 );
 const audiences = [
@@ -49,7 +49,7 @@ const audiences = [
         <div class="hero-copy">
           <span class="hero-kicker"><span /> 在风景里，发现自己</span>
           <h1>
-            让旅行，<br />留下<span class="hero-title-accent">你的故事。</span>
+            为游客拍出<br /><span class="hero-title-accent">影视级旅游短视频。</span>
           </h1>
           <p>
             风景值得奔赴，你也值得被记录。<br />和旅艺拍一起，把路过的世界，变成属于你的记忆。
@@ -67,14 +67,15 @@ const audiences = [
             <span>一程一故事</span><span aria-hidden="true">✳</span>
           </div>
           <img
-            src="/images/portrait.webp"
+            class="hero-qr"
+            src="/images/mini-program-qr.jpg"
             width="640"
-            height="850"
-            alt="旅行者在山野中停下脚步欣赏远方"
+            height="640"
+            alt="旅艺拍微信小程序码"
             fetchpriority="high"
           />
           <figcaption>
-            <span>主角是你，背景是世界。</span><small>旅行场景示意</small>
+            <span>打开微信，扫一扫</span><small>旅艺拍</small>
           </figcaption>
         </figure>
         <div class="hero-bottom">
@@ -84,7 +85,7 @@ const audiences = [
           >
         </div>
       </div>
-      <span class="image-credit hero-credit">旅行场景示意</span>
+      <span class="image-credit hero-credit">旅艺拍</span>
     </section>
 
     <section class="brand-statement container">
@@ -131,7 +132,7 @@ const audiences = [
                 height="720"
                 loading="lazy"
               /><span class="service-image-label">{{ service.tag }}</span
-              ><small>场景示意</small>
+              ><small>旅艺拍</small>
             </div>
             <div class="service-card-body">
               <div>

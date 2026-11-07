@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { navigation, site } from "~/data/site";
+
+const icpUrl = computed(
+  () =>
+    `https://beian.mps.gov.cn/#/query/webSearch?code=${encodeURIComponent(site.icpNumber)}`,
+);
 </script>
 
 <template>
@@ -8,14 +13,13 @@ import { navigation, site } from "~/data/site";
       <div class="footer-brand">
         <NuxtLink to="/" aria-label="旅艺拍首页"
           ><img
-            src="/lyp-logo.png"
+            src="/Lvyipai_dark.png"
             width="160"
             height="43"
             alt="旅艺拍"
             loading="lazy"
         /></NuxtLink>
-        <p>让旅行，留下你的故事。</p>
-        <span>每一程，都值得被记住。</span>
+        <p>为游客拍出影视级旅游短视频</p>
       </div>
       <div>
         <h2>探索旅艺拍</h2>
@@ -40,11 +44,19 @@ import { navigation, site } from "~/data/site";
       <span>© {{ new Date().getFullYear() }} {{ site.company }}</span
       ><a
         v-if="site.icpNumber"
-        href="https://beian.miit.gov.cn/"
+        class="footer-icp-link"
+        :href="icpUrl"
         target="_blank"
         rel="noopener noreferrer"
-        >{{ site.icpNumber }}</a
-      ><span>旅行 · 影像 · 连接</span>
+        ><img
+          class="footer-icp-badge"
+          src="/icp-badge.png"
+          width="18"
+          height="18"
+          alt="备案图标"
+          loading="lazy"
+        />{{ site.icpNumber }}</a
+      ><span>为游客拍出影视级旅游短视频</span>
     </div>
   </footer>
 </template>

@@ -44,7 +44,7 @@ usePageMeta(
             height="1000"
             loading="lazy"
           />
-          <figcaption>旅行场景示意 · {{ service.label }}</figcaption>
+          <figcaption>旅艺拍 · {{ service.label }}</figcaption>
         </figure>
         <div class="split-copy">
           <span class="eyebrow">{{ service.english }}</span

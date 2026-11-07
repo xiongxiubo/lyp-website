@@ -24,6 +24,6 @@ defineProps<{
       <p>{{ description }}</p>
       <slot />
     </div>
-    <span class="image-credit">旅行场景示意</span>
+    <span class="image-credit">旅艺拍</span>
   </section>
 </template>

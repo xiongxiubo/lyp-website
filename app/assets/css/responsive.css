@@ -250,16 +250,9 @@
   .header-inner {
     height: 68px;
   }
-  .brand > img {
-    width: 36px;
+  .brand-lockup {
+    width: 132px;
     height: 36px;
-  }
-  .brand > span {
-    font-size: 22px;
-  }
-  .brand small {
-    font-size: 8px;
-    margin-top: 5px;
   }
   html {
     scroll-padding-top: 85px;

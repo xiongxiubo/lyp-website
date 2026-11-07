@@ -63,7 +63,7 @@ const capabilities = [
           alt="日光下波光粼粼的海面"
           loading="lazy"
         />
-        <figcaption>旅行场景示意</figcaption>
+        <figcaption>旅艺拍</figcaption>
       </figure>
     </section>
     <section class="section section-soft">
