@@ -23,8 +23,8 @@ export const site: SiteConfig = {
 
 export const navigation = [
   { label: "首页", to: "/" },
-  { label: "产品与服务", to: "/services" },
-  { label: "景区合作", to: "/partners" },
+  { label: "产品与服务", to: "/#product-services" },
+  { label: "城市/景区代理", to: "/#collab-partners" },
   { label: "摄影师入驻", to: "/photographers" },
   { label: "关于我们", to: "/about" },
 ];

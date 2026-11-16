@@ -6,6 +6,8 @@ services:
       context: .
     init: true
     restart: unless-stopped
+    environment:
+      NUXT_COOPERATION_WEBHOOK_URL: ${NUXT_COOPERATION_WEBHOOK_URL:-}
     healthcheck:
       test:
         - CMD

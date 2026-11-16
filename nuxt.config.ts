@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: ["@element-plus/nuxt"],
+  runtimeConfig: {
+    cooperationWebhookUrl: "",
+  },
   css: ["~/assets/css/main.css", "~/assets/css/responsive.css"],
   app: {
     head: {

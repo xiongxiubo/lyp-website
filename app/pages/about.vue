@@ -11,7 +11,7 @@ const hasContact = Boolean(
 
 <template>
   <div>
-    <PageHero eyebrow="ABOUT LÜYIPAI / 关于我们" title="每一程，都值得被记住。" description="我们记录旅行，也珍视每一个出发的人。"
+    <PageHero class="about-page-hero" eyebrow="ABOUT LÜYIPAI / 关于我们" title="每一程，都值得被记住。" description="我们记录旅行，也珍视每一个出发的人。"
       image="/images/mountains.webp" alt="日光下延伸至远方的山峰" />
     <section class="section container about-story">
       <div>
@@ -69,7 +69,7 @@ const hasContact = Boolean(
         <MiniProgramEntry />
       </div>
       <div class="contact-directions">
-        <NuxtLink to="/services">
+        <NuxtLink to="/#product-services">
           <div>
             <span>我是旅行者</span>
             <p>了解服务与小程序体验</p>
@@ -83,7 +83,7 @@ const hasContact = Boolean(
           </div>
           <span aria-hidden="true">↗</span>
         </NuxtLink>
-        <NuxtLink to="/partners">
+        <NuxtLink to="/#collab-partners">
           <div>
             <span>我是景区合作伙伴</span>
             <p>了解景区服务与协作方式</p>
