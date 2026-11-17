@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from "element-plus";
 
-type CooperationType = "city" | "scenic";
+import type { CooperationRegion, CooperationType } from "~~/shared/types/cooperation";
 
 const props = defineProps<{
   modelValue: boolean;
@@ -12,34 +12,37 @@ const emit = defineEmits<{
   "update:modelValue": [value: boolean];
 }>();
 
-const cityOptions = [
-  "洛阳",
-  "郑州",
-  "开封",
-  "西安",
-  "成都",
-  "杭州",
-  "南京",
-  "北京",
-  "上海",
-  "广州",
-  "深圳",
-  "重庆",
-  "长沙",
-  "武汉",
-  "苏州",
-  "厦门",
-  "三亚",
-  "大理",
-  "丽江",
-];
+const regions = shallowRef<CooperationRegion[]>([]);
+const regionsLoading = shallowRef(false);
+const regionsError = shallowRef(false);
+let submitController: AbortController | undefined;
+
+async function loadRegions() {
+  if (regionsLoading.value || regions.value.length) return;
+  regionsLoading.value = true;
+  regionsError.value = false;
+  try {
+    regions.value = await $fetch<CooperationRegion[]>("/api/cooperation/regions", { retry: 0 });
+  } catch {
+    regionsError.value = true;
+  } finally {
+    regionsLoading.value = false;
+  }
+}
+
+watch(() => props.modelValue, (open) => {
+  if (open) void loadRegions();
+  else submitController?.abort();
+}, { immediate: true });
+watch(() => props.type, () => resetForm());
+onBeforeUnmount(() => submitController?.abort());
 
 const formRef = ref<FormInstance>();
 const submitting = ref(false);
 const submitted = ref(false);
 const submitError = ref("");
 const form = reactive({
-  city: "",
+  region: [] as string[],
   scenicName: "",
   contact: "",
   contactMethod: "",
@@ -58,7 +61,7 @@ const dialogDescription = computed(() =>
 );
 
 const rules = computed<FormRules>(() => ({
-  city: [{ required: true, message: "请选择或输入城市", trigger: "change" }],
+  region: [{ type: "array", required: true, len: 2, message: "请选择省份和城市", trigger: "change" }],
   scenicName: isScenic.value
     ? [{ required: true, message: "请输入景区名称", trigger: "blur" }]
     : [],
@@ -70,9 +73,12 @@ const rules = computed<FormRules>(() => ({
 }));
 
 function resetForm() {
+  submitController?.abort();
+  submitController = undefined;
+  submitting.value = false;
   formRef.value?.resetFields();
   Object.assign(form, {
-    city: "",
+    region: [] as string[],
     scenicName: "",
     contact: "",
     contactMethod: "",
@@ -84,31 +90,39 @@ function resetForm() {
 }
 
 async function submitForm() {
-  submitError.value = "";
-  const valid = await formRef.value?.validate().catch(() => false);
-  if (!valid) return;
-
+  if (submitting.value || submitted.value) return;
   submitting.value = true;
+  submitError.value = "";
+  const controller = new AbortController();
+  submitController = controller;
   try {
+    const valid = await formRef.value?.validate().catch(() => false);
+    if (!valid || controller.signal.aborted) return;
     await $fetch("/api/cooperation", {
       method: "POST",
+      signal: controller.signal,
+      retry: 0,
       body: {
         type: props.type,
-        city: form.city,
+        province: form.region[0],
+        city: form.region[1],
         scenicName: isScenic.value ? form.scenicName : undefined,
-        contact: form.contact,
-        contactMethod: form.contactMethod,
-        introduction: form.introduction,
+        contact: form.contact.trim(),
+        contactMethod: form.contactMethod.trim(),
+        introduction: form.introduction.trim(),
         website: form.website,
       },
     });
-    submitted.value = true;
+    if (!controller.signal.aborted) submitted.value = true;
   } catch (error: unknown) {
-    const fetchError = error as { data?: { statusMessage?: string } };
-    submitError.value =
-      fetchError.data?.statusMessage || "暂时无法提交，请稍后再试。";
+    if (controller.signal.aborted) return;
+    const fetchError = error as { data?: { message?: string; statusMessage?: string } };
+    submitError.value = fetchError.data?.message || fetchError.data?.statusMessage || "暂时无法提交，请稍后再试。";
   } finally {
-    submitting.value = false;
+    if (submitController === controller) {
+      submitting.value = false;
+      submitController = undefined;
+    }
   }
 }
 </script>
@@ -143,32 +157,30 @@ async function submitForm() {
         @submit.prevent="submitForm"
       >
         <div class="cooperation-form-grid">
-          <ElFormItem label="选择城市" prop="city">
-            <ElSelect
-              v-model="form.city"
+          <ElFormItem label="选择城市" prop="region">
+            <ElCascader
+              v-model="form.region"
+              :options="regions"
+              :disabled="regionsLoading || regionsError || submitting"
               filterable
-              allow-create
-              default-first-option
-              placeholder="选择或输入城市"
-            >
-              <ElOption
-                v-for="city in cityOptions"
-                :key="city"
-                :label="city"
-                :value="city"
-              />
-            </ElSelect>
+              clearable
+              :placeholder="regionsLoading ? '正在加载城市' : '请选择省份和城市'"
+              style="width: 100%"
+            />
+            <span v-if="regionsError" role="alert">
+              城市加载失败，<ElButton link type="primary" @click="loadRegions">重新加载</ElButton>
+            </span>
           </ElFormItem>
           <ElFormItem v-if="isScenic" label="景区名" prop="scenicName">
             <ElInput
-              v-model="form.scenicName"
+              v-model.trim="form.scenicName"
               maxlength="80"
               placeholder="请输入景区名称"
             />
           </ElFormItem>
           <ElFormItem label="联系人" prop="contact">
             <ElInput
-              v-model="form.contact"
+              v-model.trim="form.contact"
               maxlength="40"
               placeholder="请输入您的称呼"
               autocomplete="name"
@@ -176,7 +188,7 @@ async function submitForm() {
           </ElFormItem>
           <ElFormItem label="联系电话 / 微信" prop="contactMethod">
             <ElInput
-              v-model="form.contactMethod"
+              v-model.trim="form.contactMethod"
               maxlength="80"
               placeholder="请输入电话或微信号"
               autocomplete="tel"
@@ -185,7 +197,7 @@ async function submitForm() {
         </div>
         <ElFormItem label="聊聊自己" prop="introduction">
           <ElInput
-            v-model="form.introduction"
+            v-model.trim="form.introduction"
             type="textarea"
             :rows="4"
             maxlength="500"
@@ -212,6 +224,7 @@ async function submitForm() {
             round
             native-type="submit"
             :loading="submitting"
+            :disabled="regionsLoading || regionsError"
           >
             提交合作意向
           </ElButton>

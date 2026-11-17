@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@element-plus/nuxt"],
   runtimeConfig: {
-    cooperationWebhookUrl: "",
+    cooperationApiBaseUrl: "",
   },
   css: ["~/assets/css/main.css", "~/assets/css/responsive.css"],
   app: {
