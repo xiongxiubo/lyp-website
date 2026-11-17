@@ -188,12 +188,16 @@ const faqs = [
           <div class="collab-product-list">
             <article v-for="product in products" :key="product.index">
               <span>{{ product.index }}</span>
-              <div><h3>{{ product.title }}</h3><p>{{ product.text }}</p></div>
+              <div>
+                <h3>{{ product.title }}</h3>
+                <p>{{ product.text }}</p>
+              </div>
             </article>
           </div>
         </div>
         <ol class="collab-product-steps" aria-label="游客服务流程">
-          <li v-for="step in productSteps" :key="step[0]"><span>{{ step[0] }}</span><strong>{{ step[1] }}</strong><small>{{ step[2] }}</small></li>
+          <li v-for="step in productSteps" :key="step[0]"><span>{{ step[0] }}</span><strong>{{ step[1]
+          }}</strong><small>{{ step[2] }}</small></li>
         </ol>
       </div>
     </section>
@@ -209,9 +213,16 @@ const faqs = [
         </div>
         <div class="collab-partner-grid">
           <article v-for="partner in partners" :key="partner.index" class="collab-partner-card">
-            <div class="collab-partner-tab"><span>{{ partner.index }}</span><strong>{{ partner.title }}</strong><small>{{ partner.note }}</small><b>↗</b></div>
-            <div class="collab-partner-body"><h3>{{ partner.heading }}</h3><p>{{ partner.text }}</p><button type="button" class="text-link collab-dialog-trigger" @click="openCooperationDialog(partner.type)">聊聊合作方向 <span aria-hidden="true">↗</span></button></div>
-            <ul><li v-for="(value, index) in partner.values" :key="value"><span>0{{ index + 1 }}</span>{{ value }}</li></ul>
+            <div class="collab-partner-tab"><span>{{ partner.index }}</span><strong>{{ partner.title
+            }}</strong><small>{{ partner.note }}</small><b>↗</b></div>
+            <div class="collab-partner-body">
+              <h3>{{ partner.heading }}</h3>
+              <p>{{ partner.text }}</p><button type="button" class="text-link collab-dialog-trigger"
+                @click="openCooperationDialog(partner.type)">聊聊合作方向 <span aria-hidden="true">↗</span></button>
+            </div>
+            <ul>
+              <li v-for="(value, index) in partner.values" :key="value"><span>0{{ index + 1 }}</span>{{ value }}</li>
+            </ul>
           </article>
         </div>
         <p class="collab-note">城市代理与景区项目为不同合作模式，具体范围、费用、权益与职责以双方正式协议为准。</p>
@@ -226,7 +237,10 @@ const faqs = [
           <p>从产品到履约，<br />每个环节都有人协作。</p>
         </div>
         <div class="collab-support-grid">
-          <article v-for="support in supports" :key="support[0]"><span>{{ support[0] }}</span><h3>{{ support[1] }}</h3><p>{{ support[2] }}</p></article>
+          <article v-for="support in supports" :key="support[0]"><span>{{ support[0] }}</span>
+            <h3>{{ support[1] }}</h3>
+            <p>{{ support[2] }}</p>
+          </article>
         </div>
       </div>
     </section>
@@ -234,41 +248,36 @@ const faqs = [
     <section class="home-collab-section collab-launch">
       <div class="container">
         <div class="collab-heading collab-heading-single">
-          <div><span class="eyebrow">05 / 开启合作</span><h2>从一次交流，<br />到一段<em>共同的旅程。</em></h2></div>
+          <div><span class="eyebrow">05 / 开启合作</span>
+            <h2>从一次交流，<br />到一段<em>共同的旅程。</em></h2>
+          </div>
         </div>
         <ol class="collab-launch-grid">
-          <li v-for="step in launchSteps" :key="step[0]"><span>{{ step[0] }}</span><b>↗</b><h3>{{ step[1] }}</h3><p>{{ step[2] }}</p></li>
+          <li v-for="step in launchSteps" :key="step[0]"><span>{{ step[0] }}</span><b>↗</b>
+            <h3>{{ step[1] }}</h3>
+            <p>{{ step[2] }}</p>
+          </li>
         </ol>
       </div>
     </section>
 
     <section class="home-collab-section collab-faq">
       <div class="container collab-faq-layout">
-        <div><span class="eyebrow">合作前，你可能想了解</span><h2>把关心的事，<br /><em>聊清楚。</em></h2></div>
+        <div><span class="eyebrow">合作前，你可能想了解</span>
+          <h2>把关心的事，<br /><em>聊清楚。</em></h2>
+        </div>
         <div class="collab-faq-list">
-          <details v-for="faq in faqs" :key="faq[0]"><summary>{{ faq[0] }}<span>+</span></summary><p>{{ faq[1] }}</p></details>
+          <details v-for="faq in faqs" :key="faq[0]">
+            <summary>{{ faq[0] }}<span>+</span></summary>
+            <p>{{ faq[1] }}</p>
+          </details>
         </div>
       </div>
     </section>
-    <ElDialog
-      v-model="videoDialogOpen"
-      :title="activeFilm ? `${activeFilm.title} · ${activeFilm.location}` : '旅游短视频样片'"
-      width="min(470px, 92vw)"
-      align-center
-      destroy-on-close
-      class="sample-video-dialog"
-      @closed="resetFilm"
-    >
-      <video
-        v-if="activeFilm"
-        ref="videoRef"
-        :src="activeFilm.video"
-        :poster="activeFilm.image"
-        controls
-        playsinline
-        autoplay
-        preload="metadata"
-      >
+    <ElDialog v-model="videoDialogOpen" :title="activeFilm ? `${activeFilm.title} · ${activeFilm.location}` : '旅游短视频样片'"
+      width="min(470px, 92vw)" align-center destroy-on-close class="sample-video-dialog" @closed="resetFilm">
+      <video v-if="activeFilm" ref="videoRef" :src="activeFilm.video" :poster="activeFilm.image" controls playsinline
+        autoplay preload="metadata">
         您的浏览器暂不支持视频播放。
       </video>
       <p v-if="videoPlayError" class="sample-video-notice" role="status">
