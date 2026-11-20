@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { navigation, site } from "~/data/site";
-
-const icpUrl = computed(
-  () =>
-    `https://beian.mps.gov.cn/#/query/webSearch?code=${encodeURIComponent(site.icpNumber)}`,
-);
 </script>
 
 <template>
@@ -45,7 +40,7 @@ const icpUrl = computed(
       ><a
         v-if="site.icpNumber"
         class="footer-icp-link"
-        :href="icpUrl"
+        href="https://beian.miit.gov.cn/"
         target="_blank"
         rel="noopener noreferrer"
         ><img
